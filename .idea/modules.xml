@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/plates.iml" filepath="$PROJECT_DIR$/.idea/plates.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/plates-git.iml" filepath="$PROJECT_DIR$/.idea/plates-git.iml" />
     </modules>
   </component>
 </project>
