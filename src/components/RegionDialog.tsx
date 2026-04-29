@@ -1,4 +1,4 @@
-import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined'
+import PhotoCameraRoundedIcon from '@mui/icons-material/PhotoCameraRounded'
 import {
   Box,
   Button,
@@ -6,11 +6,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   FormControlLabel,
   Stack,
   Switch,
   Typography,
 } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import { useUnit } from 'effector-react'
 import { useRef } from 'react'
 import type { RegionDef } from '../data/regions'
@@ -36,20 +38,21 @@ export function RegionDialog({ open, region, onClose }: Props) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ pr: 6 }}>
+      <DialogTitle sx={{ pr: 5, pb: 2 }}>
         <Stack direction="row" spacing={2} alignItems="center">
           <PlateBadge code={region.code} />
           <Box sx={{ minWidth: 0 }}>
-            <Typography variant="h6" sx={{ lineHeight: 1.2 }}>
+            <Typography variant="h6" sx={{ lineHeight: 1.2, letterSpacing: '-0.02em' }}>
               {region.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Код региона на знаке: {region.code}
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>
+              Код на знаке · {region.code}
             </Typography>
           </Box>
         </Stack>
       </DialogTitle>
-      <DialogContent dividers>
+      <Divider />
+      <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 2.5 } }}>
         <Stack spacing={2.5}>
           <FormControlLabel
             control={
@@ -59,24 +62,32 @@ export function RegionDialog({ open, region, onClose }: Props) {
                 color="primary"
               />
             }
-            label="Отмечено как встреченное"
+            label={<Typography sx={{ fontWeight: 600 }}>В коллекции</Typography>}
           />
 
           <Box>
-            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-              Фото (хранится локально в браузере)
+            <Typography
+              variant="overline"
+              color="primary.light"
+              sx={{ fontWeight: 750, mb: 1, display: 'block' }}
+            >
+              Фото
+            </Typography>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5 }}>
+              Хранится только в браузере на этом устройстве
             </Typography>
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
-              spacing={2}
+              spacing={1.5}
               alignItems={{ sm: 'center' }}
             >
               <Button
                 variant="outlined"
-                startIcon={<PhotoCameraOutlinedIcon />}
+                color="primary"
+                startIcon={<PhotoCameraRoundedIcon />}
                 onClick={() => inputRef.current?.click()}
               >
-                Загрузить фото
+                Загрузить
               </Button>
               <input
                 ref={inputRef}
@@ -97,7 +108,7 @@ export function RegionDialog({ open, region, onClose }: Props) {
                   variant="text"
                   onClick={() => setPhotoEv({ code: region.code, photo: null })}
                 >
-                  Удалить фото
+                  Удалить
                 </Button>
               ) : null}
             </Stack>
@@ -110,29 +121,33 @@ export function RegionDialog({ open, region, onClose }: Props) {
               alt=""
               sx={{
                 width: '100%',
-                maxHeight: 360,
+                maxHeight: 340,
                 objectFit: 'cover',
-                borderRadius: 2,
-                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 3,
+                border: `1px solid ${alpha('#fff', 0.08)}`,
+                boxShadow:
+                  `0 0 0 1px ${alpha('#7dd3fc', 0.12)} inset, ` + `0 20px 50px rgba(0,0,0,0.35)`,
               }}
             />
           ) : (
             <Box
               sx={{
-                borderRadius: 2,
-                border: '1px dashed rgba(255,255,255,0.18)',
-                p: 3,
+                borderRadius: 3,
+                border: `1px dashed ${alpha('#fff', 0.2)}`,
+                bgcolor: alpha('#000', 0.2),
+                py: 4,
                 textAlign: 'center',
-                color: 'text.secondary',
               }}
             >
-              Фото ещё не добавлено
+              <Typography variant="body2" color="text.secondary">
+                Пока без фото
+              </Typography>
             </Box>
           )}
         </Stack>
       </DialogContent>
-      <DialogActions sx={{ px: 3, py: 2 }}>
-        <Button onClick={onClose} variant="contained">
+      <DialogActions sx={{ px: 3, py: 2.5 }}>
+        <Button onClick={onClose} variant="contained" color="primary">
           Готово
         </Button>
       </DialogActions>
